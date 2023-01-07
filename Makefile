@@ -1,17 +1,24 @@
 CONTAINER_NAME=sqlq4mm
 
-docker-cleanup:
-	docker kill $(CONTAINER_NAME) || true
-	docker container rm $(CONTAINER_NAME)
+docker-build:
+	docker build -t postgres-with-python .
 
 docker-run:
 	docker run -d \
 			   --name $(CONTAINER_NAME) \
 			   -v `pwd`/admin_scripts:/admin_scripts \
 			   -e POSTGRES_HOST_AUTH_METHOD=trust \
-			   arm64v8/postgres:9.6
+			   postgres-with-python
+
+postgres-setup:
+	docker exec -it -u postgres $(CONTAINER_NAME) \
+			bash -c 'createdb sqlq4mm && ls admin_scripts'
 
 docker-shell:
 	docker exec -it -u postgres $(CONTAINER_NAME) bash
 
-docker-launch: docker-run docker-shell
+docker-launch: docker-run postgres-setup docker-shell
+
+docker-cleanup:
+	docker kill $(CONTAINER_NAME) || true
+	docker container rm $(CONTAINER_NAME)

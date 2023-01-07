@@ -8,7 +8,8 @@ For compatibility with the book, a legacy version of `Postgres` is being used.
 The Docker image used is `arm64v8/postgres:9.6` which will fail on non-ARM architectures.
 
 # Setup
-1. `make docker-launch` will run the `Postgres` container, and open a shell
-into it with the `postgres` user. `postgres` is the superuser, and has permissions
+1. `make docker-build` will build the docker image, which is basically just 
+`arm64v8/postgres:9.6` with `python3` added.
+2. `make docker-launch` will run the container, initialise the database, and open a shell
+into the running container with the `postgres` user. `postgres` is the superuser, and has permissions
 to create dbs, modify schemas, read/write and so on.
-2. 
