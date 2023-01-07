@@ -12,7 +12,7 @@ docker-run:
 
 postgres-setup:
 	docker exec -it -u postgres $(CONTAINER_NAME) \
-			bash -c 'createdb sqlq4mm && ls admin_scripts'
+			bash -c 'python3 admin_scripts/setup_db.py'
 
 docker-shell:
 	docker exec -it -u postgres $(CONTAINER_NAME) bash
